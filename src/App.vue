@@ -25,7 +25,7 @@
                                     v-if="!captchaShowing">
                                 Re-enter the waiting room
                             </button>
-                            <vue-recaptcha v-else
+                            <vue-recaptcha v-if="!captchaComplited && captchaShowing"
                                            sitekey="6LdGLjEdAAAAAAnbzxUm8LsjM2eviACkT03fN_I0"
                                            @verify="captchaVerified"/>
 
