@@ -8,22 +8,28 @@
                         <hr/>
                         <h2 class="mb-4 sale-header">Sale Option 1 Waiting Room</h2>
                         <p class="mb-4">Sale Option 1 has not yet started.</p>
-                        <p class="mb-4">When it starts at 5:00 PM UTC, you will be assigned a random place in line
-                            alongside everyone else who arrived in this waiting room before the start and in front of
-                            those who arrive after the start.</p>
+                        <p class="mb-4">When it starts at 5:00 PM UTC, you will be assigned a random place in line alongside everyone else who arrived in this waiting room before the start and in front of those who arrive after the start.</p>
                         <hr>
                         <p class="text-center my-4"><b>The event will began at: 5:00 PM UTC</b></p>
 
                         <div class="sale-timer d-flex align-items-center flex-column" v-if="timerCount > 29">
                             <div class="mb-auto p-2"><h1>30 Minutes {{ timerCount }} Seconds</h1></div>
-                            <img src="https://www.nicepng.com/png/full/244-2444375_rhodes-online-green-dot-icon.png"
-                                 width="15">
+                            <img src="https://www.nicepng.com/png/full/244-2444375_rhodes-online-green-dot-icon.png" width="15">
                             <div class="p-2 bd-highlight">Status last updated: 1:02:03 PM</div>
                         </div>
 
                         <div class="text-center mt-4" v-else>
-                            <vue-recaptcha sitekey="6LdGLjEdAAAAAAnbzxUm8LsjM2eviACkT03fN_I0" @verify="captchaVerified"/>
-                            <button type="button" class="btn btn-primary btn-lg">Re-enter the waiting room</button>
+                            <button type="button"
+                                    class="btn btn-primary btn-lg"
+                                    @click="showCaptcha"
+                                    v-if="!captchaShowing">
+                                Re-enter the waiting room
+                            </button>
+                            <vue-recaptcha v-else
+                                           sitekey="6LdGLjEdAAAAAAnbzxUm8LsjM2eviACkT03fN_I0"
+                                           @verify="captchaVerified"/>
+
+                            <h2 v-if="captchaComplited">🥳🥳 Captcha complited successfully🎉🎉</h2>
                         </div>
                     </div>
                 </div>
@@ -42,6 +48,7 @@
         data() {
             return {
                 timerCount: 40,
+                captchaShowing: false,
                 captchaComplited: false,
             }
         },
@@ -58,8 +65,10 @@
             }
         },
         methods: {
+            showCaptcha() {
+                this.captchaShowing = true;
+            },
             captchaVerified() {
-                console.log('captcha verified');
                 this.captchaComplited = true;
             }
         }
